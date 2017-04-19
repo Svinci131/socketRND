@@ -1,8 +1,13 @@
-import sys
+from __future__ import print_function # In python 2.7
 import json
-from __future__ import print_function
-from socketIO_client import SocketIO, BaseNamespace
+import sys
 from flask import Flask, request, render_template, send_from_directory, session, jsonify
+from socketIO_client import SocketIO, BaseNamespace
+
+
+import logging
+logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
+logging.basicConfig()
 
 app = Flask(__name__)
 
@@ -14,9 +19,7 @@ class Namespace(BaseNamespace):
 @app.route('/')
 def hello_world():
   socketIO = SocketIO('10.1.133.238', 50, Namespace)
-
-  socketIO.emit('connection name', { 'name': 'Sally' })
-
+  socketIO.emit('connection name', { 'name': 'HELLO WORLD ROUTE' })
   return render_template('index.html')
 
 @app.route('/testsubscriber', methods=['POST'])
