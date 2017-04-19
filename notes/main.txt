@@ -1,0 +1,27 @@
+DOCKER REBUILD ISSUE
+ https://github.com/docker/compose/issues/1487
+
+HANDLING 500 CONNECTIONS
+
+- 500 servers each on its own thread
+- 500 clients each on its own thread
+- 
+
+NAME SPACE: 
+The clients communicate with the server on a namespace, one namespace per client.
+
+CONNECT TO NODE SERVER FROM DOCKER
+https://github.com/miguelgrinberg/python-socketio/issues/47
+
+FLASK - CAN’T BE USED AS A CLIENT
+http://stackoverflow.com/questions/34778341/server-to-server-communication
+https://flask-socketio.readthedocs.io/en/latest/#using-multiple-workers
+
+SocketIOClient
+https://socket.io/docs/
+http://stackoverflow.com/questions/3142705/is-there-a-websocket-client-implemented-for-python
+
+WebSocket Libr
+http://stackoverflow.com/questions/38858352/python-client-to-nodejs-server-with-socket-io
+http://stackoverflow.com/questions/3142705/is-there-a-websocket-client-implemented-for-python
+

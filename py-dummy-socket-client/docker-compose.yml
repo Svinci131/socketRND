@@ -1,0 +1,10 @@
+version: '2'
+services:
+  web:
+    build: ./web
+    container_name: py_dummy_socket_client_boilerplate
+    restart: on-failure
+    ports:
+     - "9000:9000"
+    volumes:
+     - .:/code

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+<body>
+  <div class="container">
+    <h1>Station:</h1>
+    <div id='status'>
+    </div>
+    <div id='stations'>
+      <button class="stationid">01</button>
+      <button class="stationid">02</button>
+    </div>
+  </div>
+</body>
+<script src="http://0.0.0.0:50/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+
+  const getThumbsUp = () => {
+    return (
+      `<p style="font-size: 240px; color: green">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+      </p`
+    )
+  }
+
+  const getThumbsDown = () => {
+    return (
+      `<p style="font-size: 240px; color: red">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+      </p`
+    )
+  }
+
+  const success = () => {
+    $('#status').html(getThumbsUp())
+  }
+
+  const failure = () => {
+    $('#status').html(getThumbsDown)
+  }
+
+
+  const socket = io.connect('http://0.0.0.0:50')
+
+  socket.on('connect', () => {
+    socket.emit('connection name', { name: 'Sally' })
+  })
+
+  socket.on('new user', (data) => {
+    console.log('frontend has recieved', data)
+
+  })
+</script>
+</html>
