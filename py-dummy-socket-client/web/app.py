@@ -17,15 +17,34 @@ class Namespace(BaseNamespace):
       print('-----------------------------', file=sys.stderr)
       print('[Connected]', file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
+    def on_hi(self, *args):
+      print('-----------------------------', file=sys.stderr)
+      print('hi!', file=sys.stderr)
+      print('-----------------------------', file=sys.stderr)
     def on_test(self, *args):
       print('-----------------------------', file=sys.stderr)
-      print('test', file=sys.stderr)
+      print('test!', file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
-    def on_new_user_response(self, *args):
+    def on_new_user(self, *args):
       print('-----------------------------', file=sys.stderr)
-      print('new user', file=sys.stderr)
+      print('new user!', file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
 
+# def on_connect():
+#   print('-----------------------------', file=sys.stderr)
+#   print('connected!!!', file=sys.stderr)
+#   print('-----------------------------', file=sys.stderr)
+
+# def on_new_user(data):
+#   print('-----------------------------', file=sys.stderr)
+#   print('new user', data, file=sys.stderr)
+#   print('-----------------------------', file=sys.stderr)
+#   #socketIO.emit('connection name', { 'name': 'recieved new user event' })
+
+# def on_test(data):
+#   print('-----------------------------', file=sys.stderr)
+#   print('test', data, file=sys.stderr)
+#   print('-----------------------------', file=sys.stderr)
 
 @app.route('/')
 def hello_world():
