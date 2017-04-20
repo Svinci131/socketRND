@@ -46,7 +46,7 @@
   }
 
 
-  const socket = io.connect('http://0.0.0.0:50/shared')
+  const socket = io.connect('http://0.0.0.0:50')
 
   socket.on('error', () => {
     console.log('err')
@@ -54,12 +54,12 @@
   })
 
   socket.on('connect', () => {
-    socket.emit('connection name', { name: 'Sally' })
+    socket.emit('new_connection', { name: 'Sally' })
   })
 
-  socket.on('new user', (data) => {
+  socket.on('connection_confirmed', (data) => {
     console.log('frontend has recieved', data)
-
   })
+
 </script>
 </html>

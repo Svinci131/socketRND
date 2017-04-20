@@ -17,24 +17,24 @@ class Namespace(BaseNamespace):
       print('-----------------------------', file=sys.stderr)
       print('[Connected]', file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
-    def on_hi(self, *args):
+    def on_test_event_from_node(self, *args):
       print('-----------------------------', file=sys.stderr)
-      print('hi!', file=sys.stderr)
+      print('recieved test_event_from_node', args, file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
     def on_test(self, *args):
       print('-----------------------------', file=sys.stderr)
       print('test!', args, file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
-    def on_new_user(self, *args):
+    def on_connection_confirmed(self, *args):
       print('-----------------------------', file=sys.stderr)
-      print('new user!', args, file=sys.stderr)
+      print('Connection confirmed', args, file=sys.stderr)
       print('-----------------------------', file=sys.stderr)
 
 
 @app.route('/')
 def hello_world():
   print('hit home route', file=sys.stderr)
-  socketIO.emit('connection name', { 'name': 'HELLO WORLD ROUTE' })
+  socketIO.emit('new_connection', { 'name': 'HELLO WORLD ROUTE' })
   return 'home'
 
 @app.route('/test')
