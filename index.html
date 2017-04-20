@@ -46,7 +46,12 @@
   }
 
 
-  const socket = io.connect('http://0.0.0.0:50')
+  const socket = io.connect('http://0.0.0.0:50/shared')
+
+  socket.on('error', () => {
+    console.log('err')
+    socket.emit('connection name', { name: 'Sally' })
+  })
 
   socket.on('connect', () => {
     socket.emit('connection name', { name: 'Sally' })
