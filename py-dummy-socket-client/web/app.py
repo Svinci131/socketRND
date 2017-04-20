@@ -3,7 +3,7 @@ import json
 import sys
 from flask import Flask, request, render_template, send_from_directory, session, jsonify
 from socketIO_client import SocketIO, BaseNamespace, LoggingNamespace
-
+from utils import printToConsole 
 import threading
 
 import logging
@@ -14,9 +14,7 @@ app = Flask(__name__)
 
 class Namespace(BaseNamespace):
     def on_connect(self):
-      print('-----------------------------', file=sys.stderr)
-      print('[Connected]', file=sys.stderr)
-      print('-----------------------------', file=sys.stderr)
+      printToConsole('[Connected]', None)
     def on_test_event_from_node(self, *args):
       print('-----------------------------', file=sys.stderr)
       print('[Recieved test_event_from_node]', args, file=sys.stderr)
