@@ -17,13 +17,24 @@ class bcolors:
   PURPLE = '\033[95m'
   BLUE = '\033[94m'
   GREEN = '\033[92m'
+  RED = '\033[91m'
+
+def disconnect(path):
+  print(bcolors.RED + '-----------------------------', file=sys.stderr)
+  print(bcolors.RED + 'Name Space:', path, '[A new socket was opened]', args, file=sys.stderr)
+  print(bcolors.RED + '-----------------------------', file=sys.stderr)
+
+def connectHandler(path):
+  print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
+  print(bcolors.PURPLE + 'Name Space:', path, '[Connected]', file=sys.stderr)
+  print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
 
 class Namespace(BaseNamespace):
   def on_connect(self):
-    print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
-    print(bcolors.PURPLE + 'Name Space:', self.path, '[Connected]', file=sys.stderr)
-    print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
+    connectHandler(self.path)
     self.emit('new_connection', { 'name': self.path })
+  def on_disconnect(self):
+    disconnect(self.path)
   def on_unique_event_response(self, *args):
     print(bcolors.BLUE + '-----------------------------', file=sys.stderr)
     print(bcolors.BLUE + 'Name Space:', self.path, 'UNIQUE EVENT', args, file=sys.stderr)
@@ -36,19 +47,17 @@ class Namespace(BaseNamespace):
 
 class DefaultNamespace(BaseNamespace):
   def on_connect(self):
-    print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
-    print(bcolors.PURPLE + 'Name Space:', self.path, '[Connected]', file=sys.stderr)
-    print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
+    connectHandler(self.path)
     self.emit('new_connection', { 'name': self.path })
+  def on_disconnect(self):
+    disconnect(self.path)
   def on_new_connection_recieved(self, *args):
     print(bcolors.GREEN + '-----------------------------', file=sys.stderr)
     print(bcolors.GREEN + 'Name Space:', self.path, '[A new socket was opened]', args, file=sys.stderr)
     print(bcolors.GREEN + '-----------------------------', file=sys.stderr)
 
-
 @app.route('/')
 def hello_world():
-  print('hit home route', file=sys.stderr)
   return 'home'
 
 def createSocketConnection(name):
