@@ -21,7 +21,7 @@ class bcolors:
 
 def disconnect(path):
   print(bcolors.RED + '-----------------------------', file=sys.stderr)
-  print(bcolors.RED + 'Name Space:', path, '[A new socket was opened]', args, file=sys.stderr)
+  print(bcolors.RED + 'Name Space:', path, 'Socket was disconnected', file=sys.stderr)
   print(bcolors.RED + '-----------------------------', file=sys.stderr)
 
 def connectHandler(path):
@@ -47,7 +47,9 @@ class Namespace(BaseNamespace):
 
 class DefaultNamespace(BaseNamespace):
   def on_connect(self):
-    connectHandler(self.path)
+    print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
+    print(bcolors.PURPLE + 'Name Space:', self.path, '[Connected]', file=sys.stderr)
+    print(bcolors.PURPLE + '-----------------------------', file=sys.stderr)
     self.emit('new_connection', { 'name': self.path })
   def on_disconnect(self):
     disconnect(self.path)
@@ -56,8 +58,10 @@ class DefaultNamespace(BaseNamespace):
     print(bcolors.GREEN + 'Name Space:', self.path, '[A new socket was opened]', args, file=sys.stderr)
     print(bcolors.GREEN + '-----------------------------', file=sys.stderr)
 
+
 @app.route('/')
 def hello_world():
+  print('hit home route', file=sys.stderr)
   return 'home'
 
 def createSocketConnection(name):
@@ -79,5 +83,5 @@ if __name__ == '__main__':
     name = '/robot'+str(i)
     createSocketConnection(name)
 
-  app.run(host='0.0.0.0', port=9000, debug=True)
+  app.run(host='0.0.0.0', port=9000, debug=True, use_reloader=False)
 
