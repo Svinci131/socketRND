@@ -20,19 +20,24 @@ class NamespaceOne(BaseNamespace):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID:', self.socketId, '[Connected]', file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
+    self.emit('unique_event', { 'name': self.socketId })
   def on_test_event_from_node(self, *args):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID: ', self.socketId, '(For All Clients)[Recieved test_event_from_node]', args, file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
-    self.emit('new_connection', { 'name': self.socketId })
-  # def on_test(self, *args):
-  #   print('-----------------------------', file=sys.stderr)
-  #   print('Socket ID:', self.socketId, '[Test]', args, file=sys.stderr)
-  #   print('-----------------------------', file=sys.stderr)
-  def new_connection_recieved(self, *args):
+  def on_test(self, *args):
+    print('-----------------------------', file=sys.stderr)
+    print('Socket ID:', self.socketId, '[Test]', args, file=sys.stderr)
+    print('-----------------------------', file=sys.stderr)
+  def on_unique_event_response(self, *args):
+    print('-----------------------------', file=sys.stderr)
+    print('Socket ID:', self.socketId, 'UNIQUE EVENT', args, file=sys.stderr)
+    print('-----------------------------', file=sys.stderr)
+  def on_new_connection_recieved(self, *args):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID:', self.socketId, '[A new socket was opened]', args, file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
+    self.emit('unique_event', { 'name': self.socketId })
     #event only to people in name space 
 
 class NamespaceTwo(BaseNamespace):
@@ -41,16 +46,16 @@ class NamespaceTwo(BaseNamespace):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID:', self.socketId, '[Connected]', file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
+    self.emit('new_connection', { 'name': self.socketId })
   def on_test_event_from_node(self, *args):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID: ', self.socketId, '(For All Clients)[Recieved test_event_from_node]', args, file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
-    self.emit('new_connection', { 'name': self.socketId })
   # def on_test(self, *args):
   #   print('-----------------------------', file=sys.stderr)
   #   print('Socket ID:', self.socketId, '[Test]', args, file=sys.stderr)
   #   print('-----------------------------', file=sys.stderr)
-  def new_connection_recieved(self, *args):
+  def on_new_connection_recieved(self, *args):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID:', self.socketId, '[A new socket was opened]', args, file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
@@ -66,6 +71,7 @@ def createSocketConnection(Namespace):
   t = threading.Thread(target=socketIO.wait)
   t.daemon = True
   t.start()
+
 # @app.route('/test')
 # def test():
 #   print('hit test route', file=sys.stderr)
@@ -76,7 +82,11 @@ if __name__ == '__main__':
   for i in range(0, 2):
     #event only to people in name space 
     if(i == 1):
-      createSocketConnection(NamespaceOne)
+        socketIO = SocketIO('10.1.133.238', 140)
+        namespaceOne = socketIO.define(NamespaceOne, '/chat')
+        t = threading.Thread(target=socketIO.wait)
+        t.daemon = True
+        t.start()
     else:
       createSocketConnection(NamespaceTwo)
 

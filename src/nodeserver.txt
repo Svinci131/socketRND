@@ -1,0 +1,68 @@
+/* eslint no-Utils: off */
+const Pkg = require('./package.json')
+const Utils = require('@bondco/ps-utils')
+const connections = []
+
+exports.register = (server, options, next) => {
+  const io = require('socket.io')(server.listener)
+  const sharedNameSpace = io.of('/robots')
+  const chatNameSpace = io.of('/chat')
+
+  io.on('connection', function (socket) {
+    socket.emit('test_event_from_node', Date.now())
+
+    /* when a new robot joins everyone is notified */
+    socket.on('new_connection', function(conn) {
+      conn.recieved = Date.now()
+      connections.push(conn)
+      const cons = Object.keys(io.sockets.sockets)
+      // Utils.log(Object.keys(io.nsps))
+      Utils.log(`New Connection: ${conn.name}; ${cons.length} connections in total.`)
+      io.sockets.emit('new_connection_recieved', `${conn.name} has joined; ${cons.length} connections in total.`)
+    })
+
+    // socket.on('unique_event', function(conn) {
+    //   Utils.log('unique_event', conn.name)
+    //   io.sockets.emit('unique_event_response', `${conn.name} triggered Unique event`)
+    // })
+
+
+    // setInterval(function() {
+    //   if (date)
+    // }, 1000)
+
+  })
+
+  chatNameSpace.on('connection', function (socket) {
+    socket.on('unique_event', function(conn) {
+      Utils.log('unique_event', conn.name)
+      chatNameSpace.emit('unique_event_response', `${conn.name} triggered Unique event`)
+    })
+  })
+
+  // /* for test only */
+  // sharedNameSpace.on('connection', function (socket) {
+
+  //   socket.on('shared_event', function () {
+  //     Utils.log('HERE')
+  //     sharedNameSpace.emit('connection_confirmed')
+  //   })
+  // })
+
+  // for (let i = 1; i <= 2; i++) {
+  //   let nameSpace = io.of('/robot'+i)
+  //   nameSpace.on('connection', function (s) {
+  //     s.on('private_event', function(name) {
+  //       Utils.log('HERE')
+  //       nameSpace.emit('private_event_response')
+  //     })
+  //   })
+  // }
+  /* for test only */
+  
+  next()
+}
+
+exports.register.attributes = {
+  pkg: Pkg
+}
