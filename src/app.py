@@ -20,7 +20,7 @@ class NamespaceOne(BaseNamespace):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID:', self.socketId, '[Connected]', file=sys.stderr)
     print('-----------------------------', file=sys.stderr)
-    self.emit('unique_event', { 'name': self.socketId })
+    self.emit('new_connection', { 'name': self.socketId })
   def on_test_event_from_node(self, *args):
     print('-----------------------------', file=sys.stderr)
     print('Socket ID: ', self.socketId, '(For All Clients)[Recieved test_event_from_node]', args, file=sys.stderr)
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     #event only to people in name space 
     if(i == 1):
         socketIO = SocketIO('10.1.133.238', 140)
-        namespaceOne = socketIO.define(NamespaceOne, '/chat')
+        namespaceOne = socketIO.define(NamespaceOne, '/robot1')
         t = threading.Thread(target=socketIO.wait)
         t.daemon = True
         t.start()
