@@ -1,7 +1,8 @@
 import sys
-
-def printToConsole(data, title):
-  print('-----------------------------', file=sys.stderr)
-  print(title, data, file=sys.stderr)
-  print('-----------------------------', file=sys.stderr)
   
+class bcolors:
+  PURPLE = '\033[95m' 
+  BLUE = '\033[94m'
+  GREEN = '\033[92m'
+  RED = '\033[91m'
+  ENDC = '\033[0m'
