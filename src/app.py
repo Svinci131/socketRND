@@ -82,10 +82,10 @@ def createSocketConnection(name, port):
 
 
 if __name__ == '__main__':
-  # namespace = sys.argv[1:][1]
-  # port = sys.argv[1:][0]
-  namespace = '/robot0'
-  port = 9000
+  namespace = sys.argv[1:][1]
+  port = sys.argv[1:][0]
+  # namespace = '/robot0'
+  # port = 9000
 
   createSocketConnection(namespace, port)
   app.run(host='0.0.0.0', port=int(port), debug=True, use_reloader=False)
