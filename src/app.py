@@ -39,24 +39,32 @@ class Namespace(BaseNamespace):
     print(port, bcolors.RED + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
     print(port, bcolors.RED + 'Name Space:', self.path, 'CLOSED' + bcolors.ENDC, file=sys.stderr)
     print(port, bcolors.RED + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
+  def on_pong(self):
+    print(bcolors.PURPLE + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
+    print(bcolors.PURPLE + 'Name Space:', self.path, 'PONG' + bcolors.ENDC, file=sys.stderr)
+    print(bcolors.PURPLE + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
   def on_unique_event_response(self, *args):
     print(port, bcolors.BLUE + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
     print(port, bcolors.BLUE + 'Name Space:', self.path, 'UNIQUE EVENT' + bcolors.ENDC, args, file=sys.stderr)
     print(port, bcolors.BLUE + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
-  def on_new_connection_recieved(self, *args):
-    print(port, bcolors.GREEN + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
-    print(port, bcolors.GREEN + 'Name Space:', self.path, '[A new socket was opened]' + bcolors.ENDC, args, file=sys.stderr)
-    print(port, bcolors.GREEN + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
-    self.emit('unique_event', { 'name': self.path })
+  # def on_new_connection_recieved(self, *args):
+  #   print(port, bcolors.GREEN + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
+  #   print(port, bcolors.GREEN + 'Name Space:', self.path, '[A new socket was opened]' + bcolors.ENDC, args, file=sys.stderr)
+  #   print(port, bcolors.GREEN + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
+    # self.emit('unique_event', { 'name': self.path })
 
 class DefaultNamespace(BaseNamespace):
   def on_connect(self):
     connectHandler(self.path)
-    self.emit('new_connection', { 'name': self.path })
+    # self.emit('new_connection', { 'name': self.path })
   def on_close(self):
     print(bcolors.RED + '-----------------------------', file=sys.stderr)
     print(bcolors.RED + 'Name Space:', self.path, 'CLOSED', file=sys.stderr)
     print(bcolors.RED + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
+  def on_pong(self):
+    print(bcolors.PURPLE + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
+    print(bcolors.PURPLE + 'Name Space:', self.path, 'PONG' + bcolors.ENDC, file=sys.stderr)
+    print(bcolors.PURPLE + '-----------------------------' + bcolors.ENDC, file=sys.stderr)
   def on_disconnect(self):
     disconnect(self.path)
   def on_new_connection_recieved(self, *args):

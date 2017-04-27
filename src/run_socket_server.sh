@@ -18,14 +18,14 @@ function get_unused_port()
 # echo "$(get_unused_port)"
 # # FREE_PORT="$(get_unused_port)"
 # # echo $FREE_PORT
-for i in `seq 0 4`;
+for i in `seq 0 500`;
   do
     free_port="$(get_unused_port)"
     name="/robot$i"
     last_free_port=$free_port
     echo $free_port
     echo $name
-    # python app.py $free_port $name &
+    python app.py $free_port $name &
   done
 
 # python app.py 9000 '/robot1' &
