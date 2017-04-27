@@ -71,13 +71,7 @@ class DefaultNamespace(BaseNamespace):
 
 @app.route('/')
 def hello_world():
-  print('hit home route', file=sys.stderr)
   return 'home'
-
-@app.route('/test')
-def test():
-  print('hit home route', file=sys.stderr)
-  return 'test'
 
 def createSocketConnection(name, port):
   socketIO = SocketIO('10.1.133.238', 140)
